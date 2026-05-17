@@ -1,0 +1,5 @@
+// Mutual ideas: nested lambdas and higher-order
+let compose f g = fn x . f (g x)
+in let inc x = x + 1
+   and dbl x = x * 2
+in Print((compose inc dbl) 5)

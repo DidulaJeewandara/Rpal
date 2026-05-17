@@ -1,0 +1,3 @@
+// Tuple operations
+let T = 1,2,3,4,5
+in Print(Order T)

@@ -1,0 +1,3 @@
+// Conditional + strings
+let abs n = n ls 0 -> -n | n
+in Print(abs(-7))

@@ -1,0 +1,2 @@
+// String built-ins
+let s = 'hello world' in Print(Conc (Stem s) (Stern s))
