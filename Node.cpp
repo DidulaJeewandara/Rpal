@@ -1,4 +1,26 @@
 #include "Node.h"
+#include <string>
+
+static std::string displayLabel(const std::string& label) {
+    // Strip token-wrapper tags so the AST prints "Print" instead of "<ID:Print>",
+    // "5" instead of "<INT:5>", and "'hello'" instead of "<STR:'hello'>".
+    auto stripped = [&](const char* prefix) -> std::string {
+        size_t pn = std::string(prefix).size();
+        if (label.size() >= pn + 1 &&
+            label.compare(0, pn, prefix) == 0 &&
+            label.back() == '>') {
+            return label.substr(pn, label.size() - pn - 1);
+        }
+        return {};
+    };
+    std::string s;
+    if (!(s = stripped("<ID:")).empty()  ||
+        !(s = stripped("<INT:")).empty() ||
+        !(s = stripped("<STR:")).empty()) {
+        return s;
+    }
+    return label;
+}
 
 void printTree(Node* n, std::ostream& out) {
     // recursive helper using an explicit depth counter
@@ -8,7 +30,7 @@ void printTree(Node* n, std::ostream& out) {
         void go(Node* node, int depth) {
             if (!node) return;
             for (int i = 0; i < depth; i++) out.put('.');
-            out << node->label << '\n';
+            out << displayLabel(node->label) << '\n';
             go(node->child, depth + 1);
             go(node->sibling, depth);
         }
